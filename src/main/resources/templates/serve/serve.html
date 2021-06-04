@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments :: page_head('Serve', 'none')">
+</head>
+<body>
+<div class = "container-fluid">
+    <div th:replace="navigation :: menu"> </div>
+
+    <div class="text-left m-3">
+        <a th:href="@{/serves/new}" class="fas fa-user-plus fa-2x icon-dark mr-2"></a>
+    </div>
+
+    <div th:replace="fragments :: search_form('serves')"></div>
+
+    <div class="full-details">
+        <table class="table table-bordered table-hover table-responsive-lg">
+            <thead class="thead-light">
+                <tr>
+                    <th th:replace="fragments :: column_link('serves', 'id', 'id', 'none')"></th>
+
+                    <th th:replace="fragments :: column_link('serves', 'name', 'name', 'none')"></th>
+
+                    <th th:replace="fragments :: column_link('serves', 'price', 'price', 'none')"></th>
+
+                    <th>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="element : ${listServe}">
+                    <td> [[${element.id}]] </td>
+                    <td> [[${element.name}]] </td>
+                    <td> [[${element.price}]] </td>
+                    <td>
+                        <a class="fas fa-edit fa-2x icon-green" th:href="@{'/serves/edit/' + ${element.id}}" title="Edit this serve"></a>
+                        &nbsp;
+                        <a class="fas fa-trash fa-2x icon-red link-delete" th:href="@{'/serves/delete/' + ${element.id}}" th:elementId="${element.id}" title="Delete this serve"></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:replace="fragments :: pagination('serves', 'Serves')"></div>
+    <div th:replace="modal_fragments :: confirm_modal"></div>
+    <div th:replace="fragments :: footer"></div>
+
+</div>
+
+<script th:src="@{/js/common_list.js}"></script>
+<script type="text/javascript">
+
+    moduleURL = "[[@{/serves}]]";
+    $(document).ready(function () {
+        $(".link-delete").on("click", function (e) {
+            e.preventDefault();
+            link = $(this);
+            showDeleteConfirmModal( $(this), 'serve');
+        });
+    });
+</script>
+
+</body>
+</html>
