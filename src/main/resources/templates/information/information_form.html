@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head th:replace="fragments :: page_head(${pageTitle}, 'none')">
+<body>
+<div class = "container-fluid">
+    <div th:replace="navigation :: menu('informations')"> </div>
+
+    <form th:action="@{/informations/save}" method="post" style="max-width: 700px; margin: 0 auto; margin-top: 20px"
+          enctype="multipart/form-data"
+          th:object="${information}" onsubmit="return checkEmailUnique(this);">
+        <input type="hidden" th:field="*{id}">
+
+        <div class="border border-secondary rounded p-3">
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Name:</label>
+                <div class="col-sm-8">
+                    <label>
+                        <input type="text" class="form-control" th:field="*{name}" required minlength="1" maxlength="45" />
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Surname:</label>
+                <div class="col-sm-8">
+                    <label>
+                        <input type="text" class="form-control" th:field="*{surname}" required minlength="2" maxlength="45" />
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Patronymic:</label>
+                <div class="col-sm-8">
+                    <label>
+                        <input type="text" class="form-control" th:field="*{patronymic}" required minlength="2" maxlength="45" />
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">DateBirth:</label>
+                <div class="col-sm-8">
+                    <label>
+                        <input type="date" class="form-control" th:field="*{dateBirth}" />
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Gender:</label>
+                <div class="col-sm-8">
+                    <label>
+                        <input type="text" class="form-control" th:field="*{gender}" required minlength="2" maxlength="45" />
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Passport:</label>
+                <div class="col-sm-8">
+                    <label>
+                        <input type="text" class="form-control" th:field="*{passport}" required minlength="2" maxlength="45" />
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Address:</label>
+                <div class="col-sm-8">
+                    <label>
+                        <input type="text" class="form-control" th:field="*{address}" required minlength="2" maxlength="45" />
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Telephone:</label>
+                <div class="col-sm-8">
+                    <label>
+                        <input type="text" class="form-control" th:field="*{telephone}" required minlength="2" maxlength="45" />
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Benefit Code:</label>
+                <div class="col-sm-8">
+                    <label>
+                        <input type="text" class="form-control" th:field="*{benefitCode}" required minlength="2" maxlength="45" />
+                    </label>
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Administration:</label>
+                <div class="col-sm-8">
+                    <select class="form-control" th:field="*{administration}">
+                        <th:block th:each="administration : ${administrationList}">
+                            <option th:value="${administration.id}">[[${administration.name}]]</option>
+                        </th:block>
+                    </select>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <input type = "submit" value="Save" class="btn btn-dark m-3">
+                <input type = "button" value="Back" class="btn btn-dark" id="buttonCancel">
+            </div>
+        </div>
+    </form>
+
+
+    <div th:replace="modal_fragments :: modal_dialog"></div>
+    <div th:replace="fragments :: footer"></div>
+
+</div>
+
+<script type="text/javascript">
+    moduleURL = "[[@{/informations}]]";
+    function checkEmailUnique(form) {
+        url = "[[@{/informations/check_email}]]";
+        organizationName = $("#name").val();
+        organizationId = $("#id").val();
+        csrfValue = $("input[name='_csrf']").val();
+
+
+        params = {id: organizationId, name: organizationName, _csrf: csrfValue};
+
+        $.post(url, params, function (response){
+            if(response === "OK"){
+                form.submit();
+            }
+            else if(response === "Duplicated"){
+                showWarningModal("There is another information having the name " + organizationName);
+            }
+        }).fail(function () {
+            showModalDialog("Error", "Could not connect to the server")
+        });
+        return false;
+    }
+
+
+</script>
+<script th:src="@{/js/common_form.js}"></script>
+
+</body>
+</html>

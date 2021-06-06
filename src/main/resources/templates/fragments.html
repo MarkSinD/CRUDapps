@@ -21,7 +21,7 @@
     </div>
 
     <th th:fragment="column_link(table, fieldName, columnLabel, removeTag)" th:remove="${removeTag}">
-        <a class="text-dark" th:href="@{'/' + ${table} + '/page/' + ${currentPage} + '?sortField=' + ${fieldName} +'&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} +'&keyword='+ ${keyword != null ? keyword : ''} + ${categoryId != null ? '&categoryId=' + categoryId : ''}}">[[${columnLabel}]]</a>
+        <a class="text-light" th:href="@{'/' + ${table} + '/page/' + ${currentPage} + '?sortField=' + ${fieldName} +'&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} +'&keyword='+ ${keyword != null ? keyword : ''} + ${categoryId != null ? '&categoryId=' + categoryId : ''}}">[[${columnLabel}]]</a>
         <span th:if="${sortField == fieldName}" th:class="${sortDir == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
     </th>
 
@@ -35,7 +35,7 @@
     </div>
 
     <div th:fragment="element_edit(table)" th:remove="tag">
-        <a class="fas fa-edit fa-2x icon-green" th:href="@{'/' + ${table} + '/edit/' + ${element.id}}" title="Edit"></a>
+        <a class="fa fa-pencil fa-2x icon-dark" th:href="@{'/' + ${table} + '/edit/' + ${element.id}}" title="Edit"></a>
     </div>
 
     <div th:fragment="element_delete(table)" th:remove="tag">
@@ -43,7 +43,7 @@
     </div>
 
     <div th:fragment="element_actions(table)" th:remove="tag">
-        <a class="fas fa-edit fa-2x icon-green" th:href="@{'/' + ${table} + '/edit/' + ${element.id}}" title="Edit"></a>
+        <a class="fa fa-pencil fa-2x icon-dark" th:href="@{'/' + ${table} + '/edit/' + ${element.id}}" title="Edit"></a>
         &nbsp;
         <th:block th:if="${element.hasChildren == false}">
             <a  class="fas fa-trash fa-2x icon-red link-delete" th:href="@{'/' + ${table} + '/delete/' + ${element.id}}" th:elementId="${element.id}" title="Delete"></a>
@@ -84,22 +84,14 @@
         </div>
     </div>
 
-    <div th:fragment="search_form(table)">
+    <div th:fragment="search_form(table, removeTag)"  th:remove="${removeTag}">
         <form th:action="@{'/' + ${table} +  '/page/1'}" class="form-inline m-3">
             <input type="hidden" name="sortField" th:value="${sortField}">
             <input type="hidden" name="sortDir" th:value="${sortDir}">
-            Filter:&nbsp;
-            <input type="search" name="keyword" th:value="${keyword}" class="form-control" required/>
+            <input type="search" name="keyword" placeholder="Search" aria-label="Search" th:value="${keyword}" class="form-control" required/>
             &nbsp;&nbsp;
-            <button type="submit" class="btn btn-primary fas fa-search">Search</button>
-            &nbsp;&nbsp;
-            <button type="button" class="btn btn-secondary fas fa-eraser" onclick="clearFilter()">Clean</button>
+            <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Search</button>
         </form>
-
-        <div th:if="${message}" class="alert alert-success text-center">
-            [[${message}]]
-        </div>
-
     </div>
 
 

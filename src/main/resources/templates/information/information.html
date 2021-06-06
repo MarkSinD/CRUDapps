@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments :: page_head('Information', 'none')">
+</head>
+<body>
+<div class = "container-fluid">
+    <div th:replace="navigation :: menu('informations')"> </div>
+
+    <div class="full-details">
+        <table class="table table-bordered table-striped table-hover table-responsive-lg">
+            <thead class="thead-dark">
+            <tr>
+                <th th:replace="fragments :: column_link('informations', 'id', 'id', 'none')"></th>
+
+                <th th:replace="fragments :: column_link('informations', 'name', 'name', 'none')"></th>
+
+                <th th:replace="fragments :: column_link('informations', 'surname', 'surname', 'none')"></th>
+
+                <th th:replace="fragments :: column_link('informations', 'patronymic', 'patronymic', 'none')"></th>
+
+                <th th:replace="fragments :: column_link('informations', 'dateBirth', 'date birth', 'none')"></th>
+
+                <th th:replace="fragments :: column_link('informations', 'gender', 'gender', 'none')"></th>
+
+                <th th:replace="fragments :: column_link('informations', 'passport', 'passport', 'none')"></th>
+
+                <th th:replace="fragments :: column_link('informations', 'address', 'address', 'none')"></th>
+
+                <th th:replace="fragments :: column_link('informations', 'telephone', 'telephone', 'none')"></th>
+
+                <th th:replace="fragments :: column_link('informations', 'benefitCode', 'benefit code', 'none')"></th>
+
+                <th>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="element : ${listInformation}">
+                <td> [[${element.id}]] </td>
+                <td> [[${element.name}]] </td>
+                <td> [[${element.surname}]] </td>
+                <td> [[${element.patronymic}]] </td>
+                <td> [[${element.dateBirth}]] </td>
+                <td> [[${element.gender}]] </td>
+                <td> [[${element.passport}]] </td>
+                <td> [[${element.address}]] </td>
+                <td> [[${element.telephone}]] </td>
+                <td> [[${element.benefitCode}]] </td>
+
+                <td>
+                    <a class="fa fa-user-circle fa-2x icon-dark" th:href="@{'/informations/edit/' + ${element.id}}" title="Edit this user"></a>
+                    &nbsp;
+                    <a class="fa fa-ban fa-2x icon-dark link-delete" th:href="@{'/informations/delete/' + ${element.id}}" th:elementId="${element.id}" title="Delete this user"></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:replace="modal_fragments :: confirm_modal"></div>
+
+</div>
+
+<script th:src="@{/js/common_list.js}"></script>
+<script type="text/javascript">
+
+    moduleURL = "[[@{/informations}]]";
+
+</script>
+
+</body>
+</html>
