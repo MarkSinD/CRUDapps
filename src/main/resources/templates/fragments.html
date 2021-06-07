@@ -17,11 +17,11 @@
 <body>
 
     <div th:fragment="footer" class="text-center m-3">
-        <p> Control Panel - Copyright &copy; ЖКХ</p>
+        <p></p>
     </div>
 
     <th th:fragment="column_link(table, fieldName, columnLabel, removeTag)" th:remove="${removeTag}">
-        <a class="text-light" th:href="@{'/' + ${table} + '/page/' + ${currentPage} + '?sortField=' + ${fieldName} +'&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} +'&keyword='+ ${keyword != null ? keyword : ''} + ${categoryId != null ? '&categoryId=' + categoryId : ''}}">[[${columnLabel}]]</a>
+        <a class="text-dark" th:href="@{'/' + ${table} + '/page/' + ${currentPage} + '?sortField=' + ${fieldName} +'&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} +'&keyword='+ ${keyword != null ? keyword : ''} + ${categoryId != null ? '&categoryId=' + categoryId : ''}}">[[${columnLabel}]]</a>
         <span th:if="${sortField == fieldName}" th:class="${sortDir == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
     </th>
 

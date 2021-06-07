@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head th:replace="fragments :: page_head('Dispatch', 'none')">
+</head>
+<body>
+<div class = "container-fluid">
+    <div th:replace="navigation :: menu('dispatches')"> </div>
+
+    <div class="full-details">
+        <table class="table table-bordered table-hover table-responsive-lg">
+            <thead>
+            <tr>
+                <th th:replace="fragments :: column_link('dispatches', 'id', 'id', 'none')"></th>
+
+                <th th:replace="fragments :: column_link('dispatches', 'sendingType', 'sending type', 'none')"></th>
+
+                <th th:replace="fragments :: column_link('dispatches', 'senderDate', 'sender date', 'none')"></th>
+
+                <th th:replace="fragments :: column_link('dispatches', 'recipientData', 'recipient data', 'none')"></th>
+
+                <th th:replace="fragments :: column_link('dispatches', 'weight', 'weight', 'none')"></th>
+
+                <th th:replace="fragments :: column_link('dispatches', 'value', 'value', 'none')"></th>
+
+                <th>operation</th>
+
+                <th>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="element : ${listDispatch}">
+                <td> [[${element.id}]] </td>
+                <td> [[${element.sendingType}]] </td>
+                <td> [[${element.senderDate}]] </td>
+                <td> [[${element.recipientData}]] </td>
+                <td> [[${element.weight}]] </td>
+                <td> [[${element.value}]] </td>
+                <td> [[${element.operation}]] </td>
+                <td>
+                    <a th:href="@{'/dispatches/edit/' + ${element.id}}" title="Edit this dispatch">Detele</a>
+                    &nbsp;
+                    <a th:href="@{'/dispatches/delete/' + ${element.id}}" th:elementId="${element.id}" title="Delete this dispatch">Edit</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:replace="modal_fragments :: confirm_modal"></div>
+
+</div>
+
+<script th:src="@{/js/common_list.js}"></script>
+<script type="text/javascript">
+
+    moduleURL = "[[@{/dispatches}]]";
+
+</script>
+
+</body>
+</html>

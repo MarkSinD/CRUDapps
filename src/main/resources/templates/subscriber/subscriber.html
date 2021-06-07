@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments :: page_head('Subscriber', 'none')">
+</head>
+<body>
+<div class = "container-fluid">
+    <div th:replace="navigation :: menu('subscribers')"> </div>
+
+    <div class="full-details">
+        <table class="table table-bordered table-hover table-responsive-lg">
+            <thead>
+            <tr>
+                <th th:replace="fragments :: column_link('subscribers', 'id', 'id', 'none')"></th>
+
+                <th th:replace="fragments :: column_link('subscribers', 'name', 'name', 'none')"></th>
+
+                <th th:replace="fragments :: column_link('subscribers', 'surname', 'surname', 'none')"></th>
+
+                <th th:replace="fragments :: column_link('subscribers', 'patronymic', 'patronymic', 'none')"></th>
+
+                <th th:replace="fragments :: column_link('subscribers', 'address', 'address', 'none')"></th>
+
+                <th th:replace="fragments :: column_link('subscribers', 'subscriptionSet', 'subscription', 'none')"></th>
+
+                <th>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="element : ${listSubscriber}">
+                <td> [[${element.id}]] </td>
+                <td> [[${element.name}]] </td>
+                <td> [[${element.surname}]] </td>
+                <td> [[${element.patronymic}]] </td>
+                <td> [[${element.address}]] </td>
+                <td>
+                    <th:block th:each="sub, index : ${element.subscriptionSet}">
+                        <span>[[${index.index + 1}]]: [[${sub.subscriptionDate}]]</span>
+                    </th:block>
+                </td>
+                <td>
+                    <a th:href="@{'/subscribers/edit/' + ${element.id}}" title="Edit this subscriber">Edit</a>
+                    &nbsp;
+                    <a th:href="@{'/subscribers/delete/' + ${element.id}}" th:elementId="${element.id}"
+                       title="Delete this subscriber">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:replace="modal_fragments :: confirm_modal"></div>
+
+</div>
+
+<script th:src="@{/js/common_list.js}"></script>
+<script type="text/javascript">
+
+    moduleURL = "[[@{/subscribers}]]";
+
+</script>
+
+</body>
+</html>

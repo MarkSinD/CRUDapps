@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head th:replace="fragments :: page_head(${pageTitle}, 'none')">
+<body>
+<div class = "container-fluid">
+    <div th:replace="navigation :: menu('dispatches')"> </div>
+
+    <form th:action="@{/dispatches/save}" method="post" style="max-width: 700px; margin: auto; margin-top: 20px"
+          th:object="${dispatch}" onsubmit="return checkEmailUnique(this);">
+        <input type="hidden" th:field="*{id}">
+
+        <div class="border border-secondary rounded p-3">
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Sending Type:</label>
+                <div class="col-sm-8">
+                    <label>
+                        <input type="text" class="form-control" th:field="*{sendingType}" required minlength="1" maxlength="45" />
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Sender Date:</label>
+                <div class="col-sm-8">
+                    <label>
+                        <input type="date" class="form-control" th:field="*{senderDate}" required minlength="2" maxlength="45" />
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Recipient Data:</label>
+                <div class="col-sm-8">
+                    <label>
+                        <input type="date" class="form-control" th:field="*{recipientData}" required minlength="2" maxlength="45" />
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Weight:</label>
+                <div class="col-sm-8">
+                    <label>
+                        <input type="text" class="form-control" th:field="*{weight}" required minlength="2" maxlength="45" />
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Value:</label>
+                <div class="col-sm-8">
+                    <label>
+                        <input type="text" class="form-control" th:field="*{value}" required minlength="2" maxlength="45" />
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Operation:</label>
+                <div class="col-sm-8">
+                    <select class="form-control" th:field="*{operation}">
+                        <th:block th:each="operation : ${operationList}">
+                            <option th:value="${operation.id}">[[${operation.type}]]</option>
+                        </th:block>
+                    </select>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <input type = "submit" value="Save" class="btn btn-dark m-3">
+                <input type = "button" value="Back" class="btn btn-dark" id="buttonCancel">
+            </div>
+        </div>
+    </form>
+
+
+    <div th:replace="modal_fragments :: modal_dialog"></div>
+
+
+    <div th:replace="fragments :: footer"></div>
+
+</div>
+
+<script type="text/javascript">
+    moduleURL = "[[@{/dispatches}]]";
+    function checkEmailUnique(form) {
+        url = "[[@{/dispatches/check_email}]]";
+        organizationName = $("#name").val();
+        organizationId = $("#id").val();
+        csrfValue = $("input[name='_csrf']").val();
+
+
+        params = {id: organizationId, name: organizationName, _csrf: csrfValue};
+
+        $.post(url, params, function (response){
+            if(response === "OK"){
+                form.submit();
+            }
+            else if(response === "Duplicated"){
+                showWarningModal("There is another dispatch having the name " + organizationName);
+            }
+        }).fail(function () {
+            showModalDialog("Error", "Could not connect to the server")
+        });
+        return false;
+    }
+
+
+</script>
+<script th:src="@{/js/common_form.js}"></script>
+
+</body>
+</html>
