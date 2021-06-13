@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments :: page_head('Order', 'none')">
+</head>
+<body>
+<div class = "container-fluid">
+    <div th:replace="navigation :: menu('orders')"> </div>
+
+    <div class="full-details">
+        <table class="table table-dark table-bordered table-striped table-hover table-responsive-lg">
+            <thead class="thead-dark">
+            <tr>
+                <th th:replace="fragments :: column_link('orders', 'id', 'id', 'none')"></th>
+
+                <th>employee</th>
+
+                <th>client</th>
+
+                <th>tour</th>
+
+                <th th:replace="fragments :: column_link('orders', 'date', 'date', 'none')"></th>
+
+                <th>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="ord : ${listOrder}">
+                <td> [[${ord.id}]] </td>
+                <td> [[${ord.employee.name}]] [[${ord.employee.surname}]]</td>
+                <td> [[${ord.client.name}]] [[${ord.client.surname}]]</td>
+                <td> [[${ord.tour.country}]] [[${ord.tour.resort}]]</td>
+                <td> [[${ord.date}]] </td>
+                <td>
+                    <a class="text-light" th:href="@{'/orders/edit/' + ${ord.id}}" title="Edit this order">Edit</a>
+                    &nbsp;
+                    <a class="text-light" th:href="@{'/orders/delete/' + ${ord.id}}" th:elementId="${ord.id}" title="Delete this order">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:replace="modal_fragments :: confirm_modal"></div>
+
+</div>
+
+<script th:src="@{/js/common_list.js}"></script>
+<script type="text/javascript">
+
+    moduleURL = "[[@{/orders}]]";
+
+</script>
+
+</body>
+</html>

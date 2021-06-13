@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments :: page_head('Serve', 'none')">
+</head>
+<body>
+<div class = "container-fluid">
+    <div th:replace="navigation :: menu('serves')"> </div>
+
+    <div class="full-details">
+        <table class="table table-dark table-bordered table-striped table-hover table-responsive-lg">
+            <thead class="thead-dark">
+            <tr>
+                <th th:replace="fragments :: column_link('serves', 'id', 'id', 'none')"></th>
+
+                <th th:replace="fragments :: column_link('serves', 'dateDue', 'date due', 'none')"></th>
+
+                <th>tours</th>
+
+                <th th:replace="fragments :: column_link('serves', 'provider', 'provider', 'none')"></th>
+
+                <th>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="element : ${listServe}">
+                <td> [[${element.id}]] </td>
+                <td> [[${element.dateDue}]] </td>
+                <td>
+                    <th:block th:each="ord, index : ${element.tours}">
+                        <span>[[${index.index + 1}]]: [[${ord.country}]] [[${ord.resort}]]</span>
+                    </th:block>
+                </td>
+                <td>[[${element.provider.name}]] [[${element.provider.surname}]]</td>
+
+                <td>
+                    <a class="text-light" th:href="@{'/serves/edit/' + ${element.id}}" title="Edit this serve">Edit</a>
+                    &nbsp;
+                    <a class="text-light" th:href="@{'/serves/delete/' + ${element.id}}" th:elementId="${element.id}" title="Delete this serve">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:replace="modal_fragments :: confirm_modal"></div>
+
+</div>
+
+<script th:src="@{/js/common_list.js}"></script>
+<script type="text/javascript">
+
+    moduleURL = "[[@{/serves}]]";
+
+</script>
+
+</body>
+</html>

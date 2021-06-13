@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments :: page_head('Employee', 'none')">
+</head>
+<body>
+<div class = "container-fluid">
+    <div th:replace="navigation :: menu('employees')"> </div>
+
+    <div class="full-details">
+        <table class="table table-dark table-bordered table-striped table-hover table-responsive-lg">
+            <thead class="thead-dark">
+            <tr>
+                <th th:replace="fragments :: column_link('employees', 'id', 'id', 'none')"></th>
+
+                <th th:replace="fragments :: column_link('employees', 'name', 'name', 'none')"></th>
+
+                <th th:replace="fragments :: column_link('employees', 'surname', 'surname', 'none')"></th>
+
+                <th th:replace="fragments :: column_link('employees', 'patronymic', 'patronymic', 'none')"></th>
+
+                <th th:replace="fragments :: column_link('employees', 'dateBirth', 'date birth', 'none')"></th>
+
+                <th th:replace="fragments :: column_link('employees', 'position', 'position', 'none')"></th>
+
+                <th th:replace="fragments :: column_link('employees', 'position', 'position', 'none')"></th>
+
+                <th>orders</th>
+
+                <th class="text-danger">salary</th>
+
+                <th>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="element : ${listEmployee}">
+                <td> [[${element.id}]] </td>
+                <td> [[${element.name}]] </td>
+                <td> [[${element.surname}]] </td>
+                <td> [[${element.patronymic}]] </td>
+                <td> [[${element.dateBirth}]] </td>
+                <td> [[${element.position}]] </td>
+                <td> [[${element.position}]] </td>
+                <td>
+                    <th:block th:each="ord, index : ${element.orders}">
+                        <li>[[${index.index + 1}]]: [[${ord.tour.country}]]</li>
+                    </th:block>
+                </td>
+                <td>
+                    <th:block th:each="ord, index : ${element.orders}">
+                        <li class="text-danger">[[${index.index + 1}]]: [[${ord.tour.price}  * 0.25]]$</li>
+                    </th:block>
+                </td>
+                <td class="text-danger"></td>
+                <td>
+                    <a class="text-light" th:href="@{'/employees/edit/' + ${element.id}}" title="Edit this employee">Edit</a>
+                    &nbsp;
+                    <a class="text-light" th:href="@{'/employees/delete/' + ${element.id}}" th:elementId="${element.id}" title="Delete this employee">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:replace="modal_fragments :: confirm_modal"></div>
+
+</div>
+
+<script th:src="@{/js/common_list.js}"></script>
+<script type="text/javascript">
+
+    moduleURL = "[[@{/employees}]]";
+
+</script>
+
+</body>
+</html>

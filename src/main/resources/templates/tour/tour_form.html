@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head th:replace="fragments :: page_head(${pageTitle}, 'none')">
+<body>
+<div class = "container-fluid">
+    <div th:replace="navigation :: menu('administrations')"> </div>
+
+    <form th:action="@{/tours/save}" method="post" style="max-width: 700px; margin: auto; margin-top: 20px"
+          th:object="${tour}">
+        <input type="hidden" th:field="*{id}">
+
+        <div class="border border-secondary rounded p-3">
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Country:</label>
+                <div class="col-sm-8">
+                    <label>
+                        <input type="text" class="form-control" th:field="*{country}" required minlength="1" maxlength="45" />
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Resort:</label>
+                <div class="col-sm-8">
+                    <label>
+                        <input type="text" class="form-control" th:field="*{resort}" required minlength="2" maxlength="45" />
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Transport:</label>
+                <div class="col-sm-8">
+                    <label>
+                        <input type="text" class="form-control" th:field="*{transport}" required minlength="2" maxlength="45" />
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Visa Service:</label>
+                <div class="col-sm-8">
+                    <label>
+                        <input type="checkbox" th:field="*{visaService}" required minlength="2" maxlength="45" />
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Accommodation:</label>
+                <div class="col-sm-8">
+                    <label>
+                        <input type="checkbox" th:field="*{accommodation}" required minlength="2" maxlength="45" />
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Accommodation type:</label>
+                <div class="col-sm-8">
+                    <label>
+                        <input type="text" class="form-control" th:field="*{accommodationType}" required minlength="2" maxlength="45" />
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Power:</label>
+                <div class="col-sm-8">
+                    <label>
+                        <input type="checkbox" th:field="*{power}" required minlength="2" maxlength="45" />
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Power type:</label>
+                <div class="col-sm-8">
+                    <label>
+                        <input type="text" class="form-control" th:field="*{powerType}" required minlength="2" maxlength="45" />
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Excursions:</label>
+                <div class="col-sm-8">
+                    <label>
+                        <input type="checkbox" th:field="*{excursions}" required minlength="2" maxlength="45" />
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Departure date:</label>
+                <div class="col-sm-8">
+                    <label>
+                        <input type="date" class="form-control" th:field="*{departureDate}" required minlength="2" maxlength="45" />
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Arrival date:</label>
+                <div class="col-sm-8">
+                    <label>
+                        <input type="date" class="form-control" th:field="*{arrivalDate}" required minlength="2" maxlength="45" />
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Tour:</label>
+                <div class="col-sm-8">
+                    <label>
+                        <input type="text" class="form-control" th:field="*{tour}" required minlength="2" maxlength="45" />
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Price:</label>
+                <div class="col-sm-8">
+                    <label>
+                        <input type="text" class="form-control" th:field="*{price}" required minlength="2" maxlength="45" />
+                    </label>
+                </div>
+            </div>
+
+
+            <div class="text-center">
+                <input type = "submit" value="Save" class="btn btn-dark m-3">
+                <input type = "button" value="Back" class="btn btn-dark" id="buttonCancel">
+            </div>
+        </div>
+    </form>
+
+
+    <div th:replace="modal_fragments :: modal_dialog"></div>
+
+    <div th:replace="fragments :: footer"></div>
+
+</div>
+
+<script type="text/javascript">
+    moduleURL = "[[@{/tours}]]";
+    function checkEmailUnique(form) {
+        url = "[[@{/tours/check_email}]]";
+        organizationName = $("#name").val();
+        organizationId = $("#id").val();
+        csrfValue = $("input[name='_csrf']").val();
+
+
+        params = {id: organizationId, name: organizationName, _csrf: csrfValue};
+
+        $.post(url, params, function (response){
+            if(response === "OK"){
+                form.submit();
+            }
+            else if(response === "Duplicated"){
+                showWarningModal("There is another tour having the name " + organizationName);
+            }
+        }).fail(function () {
+            showModalDialog("Error", "Could not connect to the server")
+        });
+        return false;
+    }
+
+
+</script>
+<script th:src="@{/js/common_form.js}"></script>
+
+</body>
+</html>
