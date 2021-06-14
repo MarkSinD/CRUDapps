@@ -4,79 +4,38 @@
 
 <body>
 
-<div th:fragment="menu">
-    <nav class="navbar navbar-expand-lg bg-light navbar-light">
-        <a class="navbar-brand"  th:href="@{/organizations}">
-            <img width="100" th:src="@{/images/LogoSmall.png}">
-        </a>
+<div th:fragment="menu(table)">
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #378e33;">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#topNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="topNavbar">
-            <ul class="navbar-nav">
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown"
-                       th:href="@{/organizations}">Organizations</a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" th:href="@{/organizations/new}">Create New</a>
-                        <a class="dropdown-item" th:href="@{/organizations}">View All</a>
-                    </div>
+            <ul class="nav nav-pills nav-justified">
+                <li class="nav-item ">
+                    <a class="nav-link text-danger h4" th:href="@{/books}">Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-danger h4" th:href="@{/clients}">Clients</a>
+                </li>
+                <li class="nav-item text-danger">
+                    <a class="nav-link text-danger h4" th:href="@{/goods}">Goods</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-danger h4" th:href="@{/providers}">Providers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-danger h4" th:href="@{/serves}">Serves</a>
                 </li>
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown"
-                       th:href="@{/houses}">Houses</a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" th:href="@{/houses/new}">Create New</a>
-                        <a class="dropdown-item" th:href="@{/houses}">View All</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown"
-                       th:href="@{/flats}">Flats</a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" th:href="@{/flats/new}">Create New</a>
-                        <a class="dropdown-item" th:href="@{/flats}">View All</a>
-                    </div>
+                <li>
+                    <div th:replace="fragments :: search_form(${table})"></div>
                 </li>
 
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown"
-                       th:href="@{/tenants}">Tenants</a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" th:href="@{/tenants/new}">Create New</a>
-                        <a class="dropdown-item" th:href="@{/tenants}">View All</a>
-                    </div>
+                <li class="nav-item">
+                    <a class="nav-link text-danger h4" th:href="@{'/' + ${table} + '/new'}">Add</a>
                 </li>
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown"
-                       th:href="@{/tenantDetails}">Tenant Details</a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" th:href="@{/tenantdetails/new}">Create New</a>
-                        <a class="dropdown-item" th:href="@{/tenantdetails}">View All</a>
-                    </div>
-                </li>
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown"
-                       th:href="@{/serves}">Services</a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" th:href="@{/serves/new}">Create New</a>
-                        <a class="dropdown-item" th:href="@{/serves}">View All</a>
-                    </div>
-                </li>
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown"
-                       th:href="@{/serveperformed}">Services Performed</a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" th:href="@{/serveperformed/new}">Create New</a>
-                        <a class="dropdown-item" th:href="@{/serveperformed}">View All</a>
-                    </div>
-                </li>
             </ul>
         </div>
     </nav>

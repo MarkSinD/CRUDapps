@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments :: page_head('Good', 'none')">
+</head>
+<body>
+<div class = "container-fluid">
+    <div th:replace="navigation :: menu('goods')"> </div>
+
+    <div class="full-details">
+        <table class="table table-light table-bordered table-striped table-hover table-responsive-lg">
+            <thead class="thead-light">
+            <tr>
+                <th th:replace="fragments :: column_link('goods', 'id', 'id', 'none')"></th>
+
+                <th th:replace="fragments :: column_link('goods', 'title', 'title', 'none')"></th>
+
+                <th th:replace="fragments :: column_link('goods', 'price', 'price', 'none')"></th>
+
+                <th th:replace="fragments :: column_link('goods', 'quantity', 'quantity', 'none')"></th>
+
+                <th class="text-danger">books</th>
+
+                <th th:replace="fragments :: column_link('goods', 'provider', 'provider', 'none')"></th>
+
+                <th></th>
+
+                <th>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="element : ${listGood}">
+                <td> [[${element.id}]] </td>
+                <td> [[${element.title}]] </td>
+                <td> [[${element.price}]] </td>
+                <td> [[${element.quantity}]] </td>
+                <td>
+                    <th:block th:each="ord, index : ${element.books}">
+                        <li>[[${index.index + 1}]]: [[${ord.date}]]</li>
+                    </th:block>
+                </td>
+                <td> [[${element.provider.title}]] </td>
+
+                <td>
+                    <a class="text-danger" th:href="@{'/goods/edit/' + ${element.id}}" title="Edit this good">Edit</a>
+                    &nbsp;
+                    <a class="text-danger" th:href="@{'/goods/delete/' + ${element.id}}" th:elementId="${element.id}" title="Delete this good">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:replace="modal_fragments :: confirm_modal"></div>
+
+</div>
+
+<script th:src="@{/js/common_list.js}"></script>
+<script type="text/javascript">
+
+    moduleURL = "[[@{/goods}]]";
+
+</script>
+
+</body>
+</html>
